@@ -1,0 +1,20 @@
+config:
+  app:
+    name: gill-mache
+    version: v1
+  k8s:
+    host: "http://localhost:8001"
+    serviceAccount:
+      token: /var/run/secrets/kubernetes.io/serviceaccount/token
+      ca: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    namespace: gill
+  mache:
+    id: 1
+    externIp: localhost
+    port: 8160
+    servers:
+  log:
+    debug:
+      costThreshold: 10
+    info:
+      costThreshold: 50

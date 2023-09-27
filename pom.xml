@@ -19,6 +19,11 @@
   </properties>
   <dependencies>
     <dependency>
+      <groupId>com.gill</groupId>
+      <artifactId>gill-graft</artifactId>
+      <version>0.0.1</version>
+    </dependency>
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
@@ -69,6 +74,11 @@
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>32.0.1-jre</version>
+    </dependency>
+    <dependency>
+      <groupId>com.squareup.okhttp3</groupId>
+      <artifactId>okhttp</artifactId>
+      <version>4.10.0</version>
     </dependency>
   </dependencies>
 

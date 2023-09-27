@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="5">
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <ThresholdFilter level="debug" onMatch="ACCEPT"
+                             onMismatch="DENY"/>
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level --- [%16t] %-24c{1.} : %msg%n"/>
+        </Console>
+
+        <RollingFile name="mache" fileName="logs/mache.log"
+                     filePattern="logs/$${date:yyyy-MM}/root-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level --- [%16t] %-24c{1.} : %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="graft" fileName="logs/graft.log"
+                     filePattern="logs/$${date:yyyy-MM}/root-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level --- [%16t] %-24c{1.} : %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <!--  根  -->
+        <RollingFile name="root" fileName="logs/root.log"
+                     filePattern="logs/$${date:yyyy-MM}/root-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level --- [%16t] %-24c{1.} : %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <logger name="org.springframework" level="info"/>
+        <logger name="com.gill.mache" level="debug" additivity="false">
+            <AppenderRef ref="mache"/>
+            <AppenderRef ref="console"/>
+        </logger>
+        <logger name="com.gill.graft" level="debug" additivity="false">
+            <AppenderRef ref="graft"/>
+            <AppenderRef ref="console"/>
+        </logger>
+        <Root level="info">
+            <AppenderRef ref="root"/>
+            <AppenderRef ref="console"/>
+        </Root>
+    </Loggers>
+</Configuration>
