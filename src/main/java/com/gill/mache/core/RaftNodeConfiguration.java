@@ -14,6 +14,9 @@ import com.gill.graft.Node;
 import com.gill.graft.apis.RaftRpcService;
 import com.gill.graft.apis.empty.EmptyLogStorage;
 import com.gill.graft.apis.empty.EmptyMetaStorage;
+import com.gill.graft.rpc.client.NettyRpcService;
+
+import cn.hutool.core.lang.Validator;
 
 /**
  * RaftNode
@@ -34,9 +37,21 @@ public class RaftNodeConfiguration {
 	@Bean
 	public Node raftNode(MapDataStorage dataStorage) {
 		Node node = new Node(id, EmptyMetaStorage.INSTANCE, dataStorage, EmptyLogStorage.INSTANCE);
-		List<RaftRpcService> services = Arrays.stream(servers.split(",")).map(String::trim).filter(Strings::isNotBlank)
-				.map(HostPort::new).map(RpcService::new).collect(Collectors.toList());
+		List<RaftRpcService> services = Arrays.stream(servers.split(",")).map(String::trim).filter(this::validHostPort)
+				.map(HostPort::new).map(hp -> new NettyRpcService(hp.getHost(), hp.getPort(), node::getConfig))
+				.collect(Collectors.toList());
 		node.start(services);
 		return node;
+	}
+
+	private boolean validHostPort(String hostPort) {
+		if (Strings.isBlank(hostPort)) {
+			return false;
+		}
+		String[] split = hostPort.split(":");
+		if (split.length != 2) {
+			return false;
+		}
+		return Strings.isNotBlank(split[0]) && Validator.isNumber(split[1]);
 	}
 }

@@ -15,12 +15,13 @@ import lombok.ToString;
 @ToString
 public class HostPort {
 
-    private String hostPort;
+    private String host;
 
-    public HostPort() {
-    }
+    private int port;
 
     public HostPort(String hostPort) {
-        this.hostPort = hostPort;
+        String[] split = hostPort.split(":");
+        this.host = split[0];
+        this.port = Integer.parseInt(split[1]);
     }
 }

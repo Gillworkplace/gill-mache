@@ -1,7 +1,5 @@
 package com.gill.mache;
 
-import com.gill.mache.core.HostPort;
-import com.gill.mache.core.RpcService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +36,4 @@ class GillMacheApplicationTests {
 		Assertions.assertEquals(2, reply.getIdx());
 		Assertions.assertEquals(value, serverController.getStr(key));
 	}
-
-    @Test
-    public void testRpcService() {
-        HostPort hostPort = new HostPort("localhost:8160");
-        RpcService rpcService = new RpcService(hostPort);
-        Assertions.assertEquals(1, rpcService.getId());
-    }
 }

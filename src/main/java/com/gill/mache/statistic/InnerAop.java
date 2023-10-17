@@ -9,6 +9,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +33,10 @@ public class InnerAop {
 	@Value("${config.log.info.costThreshold:10}")
 	private long costInfoThreshold;
 
-	@Pointcut("execution(* com.gill.mache.controller.InnerController.*(..))")
+	@Autowired
+	private InnerStatistics statistics;
+
+	@Pointcut("execution(* com.gill.graft.rpc.client.NettyRpcService.*(..))")
 	private void innerPointcut() {
 	}
 
@@ -56,6 +60,7 @@ public class InnerAop {
 		} finally {
 			long cost = System.currentTimeMillis() - start;
 			String methodName = joinPoint.getSignature().getName();
+			statistics.add(methodName, cost);
 			Object[] args = joinPoint.getArgs();
 			if (cost >= costDebugThreshold) {
 				log.debug("cost: {} {} => params: {}", cost, methodName, Arrays.asList(args));
